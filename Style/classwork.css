@@ -1,0 +1,108 @@
+/* Classwork Style; Christopher Malinosky; Last updated: March 8, 2014 */
+
+body div#content div{
+	position:relative;
+	width: 780px;
+	height: 175px;
+}
+
+body div#content div div{
+	width: 330px;
+	height: 80px;
+	float: left;
+	margin: 20px;
+}
+
+body div#content div div img{
+	float: left;
+	margin-right: 5px;
+}	
+
+body div#content div div h4{
+	text-decoration:underline;
+	margin:0;
+}
+
+body div#content div div p{
+	margin:0;
+}
+
+body{
+	float: none;
+	width: 780px;
+	margin: 1px auto 1px auto;
+	background-color: #FF7D73;
+	font:times-new-roman;
+}
+
+ul#navbar{
+	list-style-type:none;
+	margin:0;
+	padding:0;
+	overflow:hidden;
+}
+
+ul#navbar li{
+	float:left;
+}
+
+ul#navbar li a:link, ul#navbar li a:visited{
+	display:block;
+	width:100px;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#B92E3B;
+	text-align:center;
+	padding:4px;
+	text-decoration:none;
+}
+
+ul#navbar li a:hover, ul#navbar li a:active{
+	background-color:#F60018;
+}
+
+img#header{
+	border: 5px outset #000000;
+	-webkit-border-radius: 50px;
+	-moz-border-radius: 50px;
+	border-radius: 50px;
+}
+
+img#main{
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+body div#content{
+	border: 5px outset rgb(160,0,0);
+	background-color: rgb(255,224,224);
+	padding: .857em;
+}	
+
+body h1{
+	text-align: center;
+}
+
+table {
+	border: 1px solid #000;
+}
+
+table td, th{
+	border: 1px solid #333333;
+	padding: 6px 16px;
+	text-align: center;
+}
+
+table td:last-child{
+	text-align: left;
+}
+
+img{
+	border: 5px outset rgb(0,0,0);
+}
+	
+footer{
+	border: 1px solid #333333;
+	padding: 6px 16px;
+}

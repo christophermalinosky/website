@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<html lang="en" ng-app="myApp">
+	<head>
+		<!-- CSS Practice; Christopher Malinosky; Last updated: March 8, 2014 -->
+		<meta charset="utf-8">
+		<title>CSS Practice</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="Style/main_page_style.css">
+		<style>
+			p.practice {
+				width: 50%;
+				font-size: 150%;
+				color: DarkGreen;
+			}
+				
+			h3.practice {
+				font: Arial;
+				border: thick dotted blue;
+				padding: 20px;
+			}
+		</style>
+	</head>
+	
+	<body>
+		<img id="header" src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
+		<navigation-bar></navigation-bar>
+	
+		<div id="content">
+			<h1>CSS Practice</h1>
+			<p>For this in-class assignment, we had to format two phrases using CSS.  Here is my version:</p>
+			<p class=practice>This text takes up 50% of the page, is 150% of the normal size, and is dark green. </p>
+			<h3 class=practice>This text is in Arial, has a thick dotted blue, and has a 20 pixel padding.</h3>
+		</div>
+	</body>
+	<script src="Scripts/app.js"></script>
+	<script src="Scripts/directives/navigationBar.js"></script>
+</html>

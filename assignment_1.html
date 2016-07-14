@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<html lang="en" ng-app="myApp">
+	<head>
+		<!-- Assignment 1 - WebDesign; Christopher Malinosky; Last updated: March 8, 20144 -->
+		<meta charset="utf-8">
+		<title>Assignment 1</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="Style/main_page_style.css">
+	</head>
+	
+	<body>
+		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
+		<navigation-bar></navigation-bar>
+	
+		<div id="content">
+			<h1>Assignment 1 - Web Design</h1>
+		
+			<h2>The Basics of HTML</h2>
+			
+			<h3><u>What is the difference between a tag and an HTML element? Why does this matter?</u></h3>
+			<p>An HTML element is a section of HTML code that includes an opening tag, a closing tag and everything in between those two parts of code.  A tag is just the first and last 
+			section of codes set off by &lt; and &gt; signs.  This distinction is important because the tag defines the type of element.  This can be a little confusing so lets look at an 
+			example:</p>
+			<p><strong>&lt;title> Assignment 1 &lt;/title></strong></p>
+			<p>The code above is an example of an element.  The "&lt;title>" and "&lt;/title>" sections are tags.  They show that the element is, in this case, a title.</p>
+			<h3><u>What information does (should) the &lt;head> element contain? Why isn’t it included in the &lt;body>?</u></h3>
+			<p>The &lt;head> element should contain any information that describes the web page.  This includes the title shown in tabs, the overall style of the page, etc. On the other 
+			hand, the &lt;body> element contains the actual content of the web page, as well as deviations from the overall scheme of the page.  For example, my &lt;head> element may color the 
+			web page's text black, but if I wanted to make one word pink, I would place that information in the &lt;body> element.  By not including this information in the body, it makes it 
+			much easier to find the overall information of the page and change it if necessary.</p>
+			<h3><u>Why would someone include ‘child’ elements on a web page? Have you on this page? Give 2 examples and explain why you chose to nest the elements.</u></h3>
+			<p>A 'child' element is a element that is inside of another element (the 'parent' element).  You would want to use this type of parent/child relationship (a.k.a nesting) if 
+			you wanted to organize various elements or give an element multiple properties.  This relationship normally occurs when using level headers. Here are a couple examples I used on 
+			this page:</p>
+			<p><strong>&lt;h3>&lt;u>What is the difference between a tag and an HTML element? Why does this matter?&lt;/u>&lt;/h3></strong></p>
+			<p>Here the underline element (&lt;u>) is the child of the level header element(&lt;h3>.)  This gives the element two properties: it is both underlined and a third level "header".</p>
+			<p><strong>&lt;li>&lt;a href="index.html">Home Page&lt;/a>&lt;/li></strong></p>
+			<p>Here the anchor element (&lt;a>) is the child of the list item element (&lt;p>). This gives the element two properties: it is both an anchor and a list item.</p>
+		
+			<h2>My Website of Interest</h2>
+			
+			<img src="Images/Youtube.jpg" alt="Screenshot of the most popular videos section of Youtube." title="It's interesting what videos become popular..." width="709" height="350">
+			<p>One website I often use is Youtube because it has a wealth of videos on any topic.</p>
+			<img src="Images/Youtube_Frozen.jpg" alt="Screenshot of the most popular videos on Youtube from the movie Frozen." title="My soul is spiralling in frozen fractals all around." 
+			width="713" height="350">
+			<p>One of the main reasons, I use Youtube is to listen to music.  You can watch music videos, watch covers of popular (and not-so-popular) songs, and listen to full soundtracts.
+			Even while I am writing this webpage, I am using Youtube to listen to Frozen and Next To Normal soundtracks.</p>
+			<img src="Images/Youtube_Pewdiepie.jpg" alt="Screenshot of Pewdiepie's page on Youtube." title="Don't even ask about the duck." width="712" height="350">
+			<p>I also really like watching gaming videos. Its fun to watch other people do guides as well as complete amazing achievements. My current favorites are Pewdiepie and Smosh 
+			Games.</p>
+			<img src="Images/Youtube_Gayfamilyvalues.jpg" alt="Screenshot of Gay Family Values's page on Youtube." title="These guys do a great job describing their adoption experience." 
+			width="717" height="350">
+			<p>Finally, you can learn a lot from Youtube.  I personally enjoy watching a lot of LGBT youtubers because they do videos about current events and important issues.</p>
+		</div>
+	</body>
+	<script src="Scripts/app.js"></script>
+	<script src="Scripts/directives/navigationBar.js"></script>
+</html>

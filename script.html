@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<html lang="en" ng-app="myApp">
+	<head>
+		<!-- Script; Christopher Malinosky; Last updated: March 17, 2014 -->
+		<meta charset="utf-8">
+		<title>Script</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="Style/main_page_style.css">
+	</head>
+	
+	<body>	
+		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
+		<navigation-bar></navigation-bar>
+		<div id="content" ng-controller="ScriptController">
+			<input type="text" ng-model='script'></input>
+			<button ng-click="setScript()">Submit Script</button>
+			<input type="text" ng-model='actor'></input>
+			<button ng-click="addActor()">Add Actor</button>
+			<input type="text" ng-model='role'></input>
+			<div ng-repeat="section in subScript">
+				<p ng-show = '(section.role !== "default") && ((section.role.includes(role)) || (role == ""))'>{{section.role}}</p>
+				<p ng-show = '(section.role.includes(role)) || (role == "")'>{{section.line}}</p>			
+			</div>
+			<p>{{test}}</p>
+		</div>
+
+		<script src="Scripts/app.js"></script>
+		<script src="Scripts/directives/navigationBar.js"></script>
+		<script src="Scripts/controllers/script.js"></script>
+		<!-- <script src="Scripts/buttonHandle.js"></script> -->
+	</body>
+</html>

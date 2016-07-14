@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+<html lang="en" ng-app="myApp">
+	<head>
+		<!-- gw2info ; Christopher Malinosky; Last updated: March 17, 2014 -->
+		<meta charset="utf-8">
+		<title>GW2 Info</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="Style/main_page_style.css">
+	</head>
+	
+	<body>	
+		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
+		<navigation-bar></navigation-bar>
+		<div id="content" ng-controller="GW2InfoController">
+			<h2>Items</h2>
+			<div ng-repeat="item in items">
+				<!-- <img ng-src="{{item.icon}}" />  Looks bulky without special css-->
+				<p>{{item.name}}: {{item.count}}</p>
+			</div>
+			<h2>Unfinished Achievements</h2>
+			<div ng-repeat="achievement in unfinishedAchievements">
+				<!-- Sadly most of the achievements dont images
+				 <img ng-src="{{item.icon}}" /> -->
+				<p>{{achievement.name}} Percent Complete: {{achievement.percent}}</p>
+				<p>{{achievement.requirement}}
+			</div>
+		</div>
+
+		<script src="Scripts/app.js"></script>
+		<script src="Scripts/directives/navigationBar.js"></script>
+		<script src="Scripts/controllers/gw2info.js"></script>
+	</body>
+</html>

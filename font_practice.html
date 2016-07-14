@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<html lang="en" ng-app="myApp">
+	<head>
+		<!-- Font Practice; Christopher Malinosky; Last updated: March 8, 2014 -->
+		<meta charset="utf-8">
+		<title>Font Practice</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="Style/main_page_style.css">
+		<style>
+		.bad{
+			font-family: aerial;
+			font-size: 5px;
+			text-align: right;
+		}
+		
+		.old{
+			font-family:serif;
+			font-size:14point;
+			text-align:left;
+			width:20em;
+		}
+		
+		.new{
+			font-family:sans-serif;
+			font-size:14point;
+			text-align:left;
+			width:20em;
+		}
+		</style>
+	</head>
+	
+	<body>
+		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
+		<navigation-bar></navigation-bar>
+		
+		<div id=content>
+		<h1>Font Practice</h1>
+		<p>For this in-class assignments, we had to format a phrase using various fonts and sizes to notice its change the form.  The first example is the default formatting, the second
+		example is a bad formatting, the third example is an older and more professional formatting, an the final one is a more modern formatting.</p>
+		<p class=default>1. "Now is the time for all good men to come to the aid of the party" is a phrase first proposed as a typing drill by instructor Charles E. Weller; its use is recounted in his book The Early History of the Typewriter, p. 21 (1918).[1] Frank E. McGurrin, an expert on the early Remington typewriter, used it in demonstrating his touch typing abilities in January 1889.[2] It has appeared in a number of typing books, often in the form "Now is the time for all good men to come to the aid of their country."</p>
+		<p class=bad>2. "Now is the time for all good men to come to the aid of the party" is a phrase first proposed as a typing drill by instructor Charles E. Weller; its use is recounted in his book The Early History of the Typewriter, p. 21 (1918).[1] Frank E. McGurrin, an expert on the early Remington typewriter, used it in demonstrating his touch typing abilities in January 1889.[2] It has appeared in a number of typing books, often in the form "Now is the time for all good men to come to the aid of their country."</p>
+		<p class=old>3. "Now is the time for all good men to come to the aid of the party" is a phrase first proposed as a typing drill by instructor Charles E. Weller; its use is recounted in his book The Early History of the Typewriter, p. 21 (1918).[1] Frank E. McGurrin, an expert on the early Remington typewriter, used it in demonstrating his touch typing abilities in January 1889.[2] It has appeared in a number of typing books, often in the form "Now is the time for all good men to come to the aid of their country."</p>
+		<p class=new>4. "Now is the time for all good men to come to the aid of the party" is a phrase first proposed as a typing drill by instructor Charles E. Weller; its use is recounted in his book The Early History of the Typewriter, p. 21 (1918).[1] Frank E. McGurrin, an expert on the early Remington typewriter, used it in demonstrating his touch typing abilities in January 1889.[2] It has appeared in a number of typing books, often in the form "Now is the time for all good men to come to the aid of their country."</p>
+		</div>
+	</body>
+
+	<script src="Scripts/app.js"></script>
+	<script src="Scripts/directives/navigationBar.js"></script>
+</html>

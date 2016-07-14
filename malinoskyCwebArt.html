@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<html lang="en" ng-app="myApp">
+	<head>
+		<!-- Assignment 4 - CSS Art; Christopher Malinosky; Last updated: March 8, 2014 -->
+		<meta charset="utf-8">
+		<title>Assignment 4</title>
+		<link rel="stylesheet" type="text/css" media="screen" href="Style/assignment_4.css">
+	</head>
+	
+	<body>
+		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
+		<navigation-bar></navigation-bar>
+	
+		<div id="content">
+			<h1>Assignment 4 - CSS Art</h1>
+			
+			<div id="picture">
+				<div class="sun"></div>
+				<div class="sun_edge"></div>
+				
+				<div class="petal petal_1"></div>
+				<div class="petal petal_2"></div>
+				<div class="petal petal_3"></div>
+				<p class="stem">(</p>
+				
+				<div class="ground"></div>
+				
+				<div class="r_one c_four orange box"></div>
+				<div class="r_one c_five red box"></div>
+				<div class="r_one c_six red box"></div>
+				<div class="r_two c_three orange box"></div>
+				<div class="r_two c_four dred box"></div>
+				<div class="r_two c_five red box"></div>
+				<div class="r_two c_six red box"></div>
+				<div class="r_three c_four dred box"></div>
+				<div class="r_three c_five red box"></div>
+				<div class="r_three c_six red box"></div>
+				<div class="r_five c_two dwhite box"></div>
+				<div class="r_five c_three lwhite box"></div>
+				<div class="r_five c_four white box"></div>
+				<div class="r_five c_five white box"></div>
+				<div class="r_five c_six white box"></div>
+				<div class="r_five c_seven white box"></div>
+				<div class="r_five c_eight white box"></div>
+				<div class="r_five c_nine white box"></div>
+				<div class="r_five c_ten white box"></div>
+				<div class="r_five c_eleven white box"></div>
+				<div class="r_five c_twelve white box"></div>
+				<div class="r_six c_one dwhite box"></div>
+				<div class="r_six c_two lwhite box"></div>
+				<div class="r_six c_three lwhite box"></div>
+				<div class="r_six c_four white box"></div>
+				<div class="r_six c_five white box"></div>
+				<div class="r_six c_six white box"></div>
+				<div class="r_six c_seven white box"></div>
+				<div class="r_six c_eight white box"></div>
+				<div class="r_six c_nine white box"></div>
+				<div class="r_six c_ten white box"></div>
+				<div class="r_six c_eleven white box"></div>
+				<div class="r_six c_twelve white box"></div>
+				<div class="r_six c_thirteen white box"></div>
+				<div class="r_seven c_one dwhite box"></div>
+				<div class="r_seven c_two lwhite box"></div>
+				<div class="r_seven c_three white box"></div>
+				<div class="r_seven c_four black box"></div>
+				<div class="r_seven c_five white box"></div>
+				<div class="r_seven c_six white box"></div>
+				<div class="r_seven c_seven white box"></div>
+				<div class="r_seven c_eight white box"></div>
+				<div class="r_seven c_nine white box"></div>
+				<div class="r_seven c_ten white box"></div>
+				<div class="r_seven c_eleven white box"></div>
+				<div class="r_seven c_twelve black box"></div>
+				<div class="r_seven c_thirteen white box"></div>
+				<div class="r_eight c_one dwhite box"></div>
+				<div class="r_eight c_two lwhite box"></div>
+				<div class="r_eight c_three white box"></div>
+				<div class="r_eight c_four white box"></div>
+				<div class="r_eight c_five white box"></div>
+				<div class="r_eight c_six white box"></div>
+				<div class="r_eight c_seven black box"></div>
+				<div class="r_eight c_eight black box"></div>
+				<div class="r_eight c_nine black box"></div>
+				<div class="r_eight c_ten black box"></div>
+				<div class="r_eight c_eleven white box"></div>
+				<div class="r_eight c_twelve white box"></div>
+				<div class="r_eight c_thirteen white box"></div>
+				<div class="r_nine c_one dwhite box"></div>
+				<div class="r_nine c_two lwhite box"></div>
+				<div class="r_nine c_three white box"></div>
+				<div class="r_nine c_four white box"></div>
+				<div class="r_nine c_five white box"></div>
+				<div class="r_nine c_six white box"></div>
+				<div class="r_nine c_seven pink box"></div>
+				<div class="r_nine c_eight pink box"></div>
+				<div class="r_nine c_nine black box"></div>
+				<div class="r_nine c_ten black box"></div>
+				<div class="r_nine c_eleven white box"></div>
+				<div class="r_nine c_twelve white box"></div>
+				<div class="r_nine c_thirteen white box"></div>
+				<div class="r_ten c_one dwhite box"></div>
+				<div class="r_ten c_two lwhite box"></div>
+				<div class="r_ten c_three lwhite box"></div>
+				<div class="r_ten c_four white box"></div>
+				<div class="r_ten c_five white box"></div>
+				<div class="r_ten c_six white box"></div>
+				<div class="r_ten c_seven white box"></div>
+				<div class="r_ten c_eight pink box"></div>
+				<div class="r_ten c_nine black box"></div>
+				<div class="r_ten c_ten white box"></div>
+				<div class="r_ten c_eleven white box"></div>
+				<div class="r_ten c_twelve white box"></div>
+				<div class="r_eleven c_five dwhite box"></div>
+				<div class="r_eleven c_six dwhite box"></div>
+				<div class="r_eleven c_seven lwhite box"></div>
+				<div class="r_eleven c_eight white box"></div>
+				<div class="r_eleven c_nine lwhite box"></div>
+				<div class="r_twelve c_two dwhite box"></div>
+				<div class="r_twelve c_three white box"></div>
+				<div class="r_twelve c_four white box"></div>
+				<div class="r_twelve c_five lwhite box"></div>
+				<div class="r_twelve c_six white box"></div>
+				<div class="r_twelve c_seven white box"></div>
+				<div class="r_twelve c_eight white box"></div>
+				<div class="r_twelve c_nine white box"></div>
+				<div class="r_twelve c_ten dwhite box"></div>
+				<div class="r_twelve c_eleven dwhite box"></div>
+				<div class="r_thirteen c_three dwhite box"></div>
+				<div class="r_thirteen c_four white box"></div>
+				<div class="r_thirteen c_five white box"></div>
+				<div class="r_thirteen c_six white box"></div>
+				<div class="r_thirteen c_seven white box"></div>
+				<div class="r_thirteen c_eight white box"></div>
+				<div class="r_thirteen c_nine white box"></div>
+				<div class="r_thirteen c_ten dwhite box"></div>
+				<div class="r_fourteen c_four dwhite box"></div>
+				<div class="r_fourteen c_five white box"></div>
+				<div class="r_fourteen c_six white box"></div>
+				<div class="r_fourteen c_seven white box"></div>
+				<div class="r_fourteen c_eight white box"></div>
+				<div class="r_fourteen c_nine white box"></div>
+				<div class="r_fifteen c_four dwhite box"></div>
+				<div class="r_fifteen c_five lwhite box"></div>
+				<div class="r_fifteen c_six white box"></div>
+				<div class="r_fifteen c_seven white box"></div>
+				<div class="r_fifteen c_eight white box"></div>
+				<div class="r_fifteen c_nine white box"></div>
+				<div class="r_sixteen c_four dwhite box"></div>
+				<div class="r_sixteen c_five lwhite box"></div>
+				<div class="r_sixteen c_six white box"></div>
+				<div class="r_sixteen c_seven white box"></div>
+				<div class="r_sixteen c_eight white box"></div>
+				<div class="r_sixteen c_nine white box"></div>
+				<div class="r_seventeen c_four dwhite box"></div>
+				<div class="r_seventeen c_five lwhite box"></div>
+				<div class="r_seventeen c_six dwhite box"></div>
+				<div class="r_seventeen c_seven dwhite box"></div>
+				<div class="r_seventeen c_eight lwhite box"></div>
+				<div class="r_seventeen c_nine dwhite box"></div>
+				<div class="r_eighteen c_three dwhite box"></div>
+				<div class="r_eighteen c_four lwhite box"></div>
+				<div class="r_eighteen c_seven lwhite box"></div>
+				<div class="r_eighteen c_eight dwhite box"></div>
+			</div>
+			
+			<p>The main character in the picture is the main character from one of my favourite video games of all time, Fez.  The puzzle game is very challenging but it is extremely fun
+			and is made all the better by the addition of these cute, blocky characters.  After building him, I just wanted to create a setting around him that would be nice and cheery
+			to fit his personality: a nice big sun and a blue sun, frolicking on green land.  I also though he would have fun with a shamrock for the coming Saint Patrick's day.</p>
+			<p>I made this art out of only html elements formatted and shaped by CSS. Each element of the picture is created separately.  I started building Fez using the easiest method. I
+			created a set of division elements that would each act as a block on his body. I proceeded to give each block a set of four classes, each defining a characteristic of the
+			block in the following order: row, column, color, and shape (box).  Afterwords, I defined each class in CSS so that it matched with the characteristic I was giving the block.</p>
+			<p>The ground and sun's center are both made out of circular shapes.  This is done by creating a square element, then rounding the borders.  The ground element does not look 
+			like a circle because the picture is surrounded in another division, which has a border and hides all overflow. The star border found around the circular center of the sun is
+			created by making a set of three square divisions out of one division tag and rotating them to appear like a star.</p>
+			<p>Finally, I made the shamrock with a combination of three hearts and a parenthesis.  I rotated a parenthesis and turned it shamrock green to made it the stem of the shamrock.
+			To make the heart, a division element is duplicated into to make two rectangles with a rounded side, one of which is rotated to fit next to the other.  I made three of these
+			hearts for petals, rotated them to the correct position, and moved them so that they were at the top of the stem to finish up the shamrock.  I also used the z index property 
+			to place elements on top of other elements. Overall, this picture was a very fun way to learn how to rotate and reshape elements using CSS!</p>
+		</div>
+	</body>
+
+	<script src="Scripts/app.js"></script>
+	<script src="Scripts/directives/navigationBar.js"></script>
+</html>
