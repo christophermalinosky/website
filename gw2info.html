@@ -12,8 +12,9 @@
 		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
 		<navigation-bar></navigation-bar>
 		<div id="content" ng-controller="GW2InfoController">
+			<input type="search" ng-model="search" placeholder="Search for an item" aria-label="Search Items" />
 			<h2>Items</h2>
-			<div ng-repeat="item in items">
+			<div ng-repeat="item in items | filter:search">
 				<!-- <img ng-src="{{item.icon}}" />  Looks bulky without special css-->
 				<p>{{item.name}}: {{item.count}}</p>
 			</div>
