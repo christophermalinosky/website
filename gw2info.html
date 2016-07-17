@@ -17,6 +17,7 @@
 			<div ng-repeat="item in items | filter:search">
 				<!-- <img ng-src="{{item.icon}}" />  Looks bulky without special css-->
 				<p>{{item.name}}: {{item.count}}</p>
+				<div ng-repeat="loc in item.location">{{loc}}</div>
 			</div>
 			<h2>Unfinished Achievements</h2>
 			<div ng-repeat="achievement in unfinishedAchievements">

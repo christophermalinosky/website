@@ -1,11 +1,12 @@
 angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", function($scope, $http){
 	$scope.itemAmounts = [];
+	$scope.itemLocations = [];
 	$scope.items = [];
 
 	$scope.finishedAchievements = [];
 	$scope.unfinishedAchievements = [];
 
-	function processPlayerItemData(playerItems){
+	function processPlayerItemData(playerItems, iLocation){
 		for(let i = 0; i < playerItems.length; i++){
 			let currentItem = playerItems[i];
 			//Bag items are null if they are not using the slot
@@ -19,6 +20,27 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				} else {
 					$scope.itemAmounts[currentItem.id] = $scope.itemAmounts[currentItem.id] + currentItem.count;
 				}
+
+				if ($scope.itemLocations[currentItem.id] == undefined)
+				{
+					$scope.itemLocations[currentItem.id] = {location:[iLocation]};
+				}
+				else
+				{
+					let match = false;
+					for (let x = 0; x < $scope.itemLocations[currentItem.id].location.length; x++)
+					{
+						if ($scope.itemLocations[currentItem.id].location[x] == iLocation)
+						{
+							match = true;
+							break;
+						}
+					}
+					if (!match)
+					{
+						$scope.itemLocations[currentItem.id].location.push(iLocation);
+					}
+				}
 			}
 		}
 	}
@@ -26,19 +48,19 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 
 	$http.get('https://api.guildwars2.com/v2/characters/Belrath Ironblood?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
 	.then(function(playerCharacterResponse){
-		processPlayerItemData(playerCharacterResponse.data.equipment);
+		processPlayerItemData(playerCharacterResponse.data.equipment, "Belrath Ironblood - Equipment");
 		for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
-			processPlayerItemData(playerCharacterResponse.data.bags);
-			processPlayerItemData(playerCharacterResponse.data.bags[i].inventory);
+			processPlayerItemData(playerCharacterResponse.data.bags, "Belrath Ironblood - Bags");
+			processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, "Belrath Ironblood - Bags");
 		}
 
 		$http.get('https://api.guildwars2.com/v2/account/bank?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
 		.then(function(bankItemResponse){
-			processPlayerItemData(bankItemResponse.data);
+			processPlayerItemData(bankItemResponse.data, "Bank");
 
 			$http.get('https://api.guildwars2.com/v2/account/materials?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
 			.then(function(materialItemResponse){
-				processPlayerItemData(materialItemResponse.data);
+				processPlayerItemData(materialItemResponse.data, "Bank");
 
 				let itemKeys = Object.keys($scope.itemAmounts);
 				for(let i = 0; i < itemKeys.length; i++){
@@ -46,13 +68,14 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 					$http.get('https://api.guildwars2.com/v2/items/' + currentKey)
 					.then(function(itemResponse){
 						itemResponse.data.count = $scope.itemAmounts[currentKey];
+						itemResponse.data.location = $scope.itemLocations[currentKey].location;
 						$scope.items.push(itemResponse.data);
 					});
 				}
 			});
 		});
 	});
-
+/*
 	$http.get('https://api.guildwars2.com/v2/account/achievements?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
 	.then(function(playerAchievementResponse) {
 		let playerAchievementData = playerAchievementResponse.data;
@@ -75,5 +98,5 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				}
 			})
 		}
-	});
+	}); */
 }]);
