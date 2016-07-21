@@ -56,27 +56,35 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 		}
 	});
 	
-
+	let achievementFullDataResponses = [];
 	$http.get('https://api.guildwars2.com/v2/account/achievements?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
 	.then(function(playerAchievementResponse) {
 		let playerAchievementData = playerAchievementResponse.data;
-		let httpRequestString = 'https://api.guildwars2.com/v2/achievements?ids=';
-		console.log(playerAchievementData.length);
-		for(let i = 0; i < 100; i++){
-			//Achievement 1257 in the player list is not in the achievement list
-			if(playerAchievementData[i].id !== 1257){
-				if(i == 0){
-					httpRequestString = httpRequestString + playerAchievementData[i].id;
-				} else {
-					httpRequestString = httpRequestString + ',' + playerAchievementData[i].id;
+		//Can only request 200 ids at a time from api
+		const numberOfAchievementRequests = Math.ceil(playerAchievementData.length/200);
+		let achievementPromises = [];
+		for(let i = 0; i < numberOfAchievementRequests; i++){
+			let httpRequestString = 'https://api.guildwars2.com/v2/achievements?ids=';
+			const maxAchievementIndex = Math.min(200 * (i + 1), playerAchievementData.length);
+			for(let j = 200 * i; j < maxAchievementIndex; j++){
+				//Achievement 1257 in the player list is not in the achievement list
+				if(playerAchievementData[j].id !== 1257){
+					if(j == 0){
+						httpRequestString = httpRequestString + playerAchievementData[j].id;
+					} else {
+						httpRequestString = httpRequestString + ',' + playerAchievementData[j].id;
+					}
 				}
 			}
+			achievementPromises.push($http.get(httpRequestString));
 		}
-		$http.get(httpRequestString)
-		.then(function(achievementFullDataResponse){
-			let fullAchievementData = achievementFullDataResponse.data;
-			for(let i = 0; i < fullAchievementData.length; i++){
-				let currentPlayerAchievement = fullAchievementData[i];
+
+		return Promise.all(achievementPromises);
+	}).then((allCompletedResponse) => {
+		for(let i = 0; i < numberOfAchievementRequests; i++){
+			let fullAchievementData = achievementFullDataResponses[i].data;
+			for(let j = 0; j < fullAchievementData.length; j++){
+				let currentPlayerAchievement = fullAchievementData[j];
 				if(currentPlayerAchievement.done){
 					$scope.finishedAchievements.push(achievementResponse.data);
 				} else {
@@ -91,6 +99,6 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 			$scope.unfinishedAchievements.sort(function(a,b) {
 				return b.percent- a.percent;
 			});
-		});
+		}
 	});
 }]);
