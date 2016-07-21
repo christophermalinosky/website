@@ -25,7 +25,7 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 	//My API token = 3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF
 
 	let characterPromise = $http.get('https://api.guildwars2.com/v2/characters/Belrath Ironblood?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
-	.then(function(playerCharacterResponse){
+	.then((playerCharacterResponse) => {
 		processPlayerItemData(playerCharacterResponse.data.equipment);
 		for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
 			processPlayerItemData(playerCharacterResponse.data.bags);
@@ -34,22 +34,22 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 	});
 
 	let bankPromise = $http.get('https://api.guildwars2.com/v2/account/bank?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
-	.then(function(bankItemResponse){
+	.then((bankItemResponse) => {
 		processPlayerItemData(bankItemResponse.data);
 	});
 	
 	let materialPromise = $http.get('https://api.guildwars2.com/v2/account/materials?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
-	.then(function(materialItemResponse){
+	.then((materialItemResponse) => {
 		processPlayerItemData(materialItemResponse.data);
 	});
 
 	Promise.all([characterPromise,bankPromise,materialPromise])
-	.then(function(response){
+	.then((response) => {
 		let itemKeys = Object.keys($scope.itemAmounts);
 		for(let i = 0; i < itemKeys.length; i++){
 		let currentKey = itemKeys[i];
 		$http.get('https://api.guildwars2.com/v2/items/' + currentKey)
-		.then(function(itemResponse){
+		.then((itemResponse) => {
 			itemResponse.data.count = $scope.itemAmounts[currentKey];
 			$scope.items.push(itemResponse.data);
 			});
@@ -57,9 +57,13 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 	});
 	
 	let achievementFullDataResponses = [];
+	let playerAchievementDataMap =[];
 	$http.get('https://api.guildwars2.com/v2/account/achievements?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
-	.then(function(playerAchievementResponse) {
+	.then((playerAchievementResponse) => {
 		let playerAchievementData = playerAchievementResponse.data;
+		for(let i = 0; i < playerAchievementData.length; i++){
+			playerAchievementDataMap[playerAchievementData[i].id] = playerAchievementData[i];
+		}
 		//Can only request 200 ids at a time from api
 		const numberOfAchievementRequests = Math.ceil(playerAchievementData.length/200);
 		let achievementPromises = [];
@@ -76,17 +80,23 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 					}
 				}
 			}
-			achievementPromises.push($http.get(httpRequestString));
+			achievementPromises.push($http.get(httpRequestString).then((response) => achievementFullDataResponses.push(response)));
 		}
 
 		return Promise.all(achievementPromises);
 	}).then((allCompletedResponse) => {
-		for(let i = 0; i < numberOfAchievementRequests; i++){
+		for(let i = 0; i < achievementFullDataResponses.length; i++){
 			let fullAchievementData = achievementFullDataResponses[i].data;
 			for(let j = 0; j < fullAchievementData.length; j++){
 				let currentPlayerAchievement = fullAchievementData[j];
+
+				let currentAccountAchievementData = playerAchievementDataMap[currentPlayerAchievement.id];
+				currentPlayerAchievement.done = currentAccountAchievementData.done;
+				currentPlayerAchievement.current = currentAccountAchievementData.current;
+				currentPlayerAchievement.max = currentAccountAchievementData.max;
+
 				if(currentPlayerAchievement.done){
-					$scope.finishedAchievements.push(achievementResponse.data);
+					$scope.finishedAchievements.push(currentPlayerAchievement);
 				} else {
 					if(currentPlayerAchievement.max == -1){
 						currentPlayerAchievement.percent = -1;
