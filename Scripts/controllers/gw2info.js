@@ -56,24 +56,37 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 	$http.get('https://api.guildwars2.com/v2/account/achievements?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
 	.then(function(playerAchievementResponse) {
 		let playerAchievementData = playerAchievementResponse.data;
-		for(let i = 0; i < playerAchievementData.length; i++){
-			let currentPlayerAchievement = playerAchievementData[i];
-			$http.get('https://api.guildwars2.com/v2/achievements/' + currentPlayerAchievement.id)
-			.then(function(achievementResponse){
-				if(currentPlayerAchievement.done && achievementResponse.icon !== null){
+		let httpRequestString = 'https://api.guildwars2.com/v2/achievements?ids=';
+		console.log(playerAchievementData.length);
+		for(let i = 0; i < 100; i++){
+			//Achievement 1257 in the player list is not in the achievement list
+			if(playerAchievementData[i].id !== 1257){
+				if(i == 0){
+					httpRequestString = httpRequestString + playerAchievementData[i].id;
+				} else {
+					httpRequestString = httpRequestString + ',' + playerAchievementData[i].id;
+				}
+			}
+		}
+		$http.get(httpRequestString)
+		.then(function(achievementFullDataResponse){
+			let fullAchievementData = achievementFullDataResponse.data;
+			for(let i = 0; i < fullAchievementData.length; i++){
+				let currentPlayerAchievement = fullAchievementData[i];
+				if(currentPlayerAchievement.done){
 					$scope.finishedAchievements.push(achievementResponse.data);
 				} else {
 					if(currentPlayerAchievement.max == -1){
-						achievementResponse.data.percent = -1;
+						currentPlayerAchievement.percent = -1;
 					} else {
-						achievementResponse.data.percent = Math.round((currentPlayerAchievement.current/currentPlayerAchievement.max) * 10000)/100;
+						currentPlayerAchievement.percent = Math.round((currentPlayerAchievement.current/currentPlayerAchievement.max) * 10000)/100;
 					}
-					$scope.unfinishedAchievements.push(achievementResponse.data);
-					$scope.unfinishedAchievements.sort(function(a,b) {
-						return b.percent- a.percent;
-					});
+					$scope.unfinishedAchievements.push(currentPlayerAchievement);
 				}
-			})
-		}
+			}
+			$scope.unfinishedAchievements.sort(function(a,b) {
+				return b.percent- a.percent;
+			});
+		});
 	});
 }]);
