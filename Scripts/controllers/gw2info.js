@@ -43,16 +43,35 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 		processPlayerItemData(materialItemResponse.data);
 	});
 
+	let itemFullDataResponses = [];
 	Promise.all([characterPromise,bankPromise,materialPromise])
 	.then((response) => {
 		let itemKeys = Object.keys($scope.itemAmounts);
-		for(let i = 0; i < itemKeys.length; i++){
-		let currentKey = itemKeys[i];
-		$http.get('https://api.guildwars2.com/v2/items/' + currentKey)
-		.then((itemResponse) => {
-			itemResponse.data.count = $scope.itemAmounts[currentKey];
-			$scope.items.push(itemResponse.data);
-			});
+
+		//Can only request 200 ids at a time from api
+		const numberOfItemRequests = Math.ceil(itemKeys.length/150);
+		let itemPromises = [];
+		for(let i = 0; i < numberOfItemRequests; i++){
+			let httpRequestString = 'https://api.guildwars2.com/v2/items?ids=';
+			const maxItemIndex = Math.min(150 * (i + 1), itemKeys.length);
+			for(let j = 150 * i; j < maxItemIndex; j++){
+				if(j == 0){
+					httpRequestString = httpRequestString + itemKeys[j];
+				} else {
+					httpRequestString = httpRequestString + ',' + itemKeys[j];
+				}
+			}
+			itemPromises.push($http.get(httpRequestString).then((response) => itemFullDataResponses.push(response)));
+		}
+		return Promise.all(itemPromises);
+	}).then((allCompletedResponse) => {
+		for(let i = 0; i < itemFullDataResponses.length; i++){
+			let fullItemData = itemFullDataResponses[i].data;
+			for(let j = 0; j < fullItemData.length; j ++){
+				currentItemData = fullItemData[j];
+				currentItemData.count = $scope.itemAmounts[currentItemData.id];
+				$scope.items.push(currentItemData);
+			}
 		}
 	});
 	
