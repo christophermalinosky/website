@@ -1,5 +1,7 @@
 angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", function($scope, $http){
 	$scope.items = [];
+	$scope.characters = [];
+	$scope.selectedCharacter;
 
 	$scope.finishedAchievements = [];
 	$scope.unfinishedAchievements = [];
@@ -24,18 +26,41 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 
 	//My API token = 3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF
 
-	$scope.getItems = function(){
+	$scope.getItems = function(characterName){
 		$scope.items.length = 0;
 		const itemAmounts = [];
 
-		let characterPromise = $http.get('https://api.guildwars2.com/v2/characters/Belrath Ironblood?access_token=' + $scope.apiKey)
-		.then((playerCharacterResponse) => {
-			processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
-			processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
-			for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
-				processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
-			}
-		});
+		let characterPromise;
+		if(characterName){
+			$http.get('https://api.guildwars2.com/v2/characters/' + characterName + '?access_token=' + $scope.apiKey)
+			.then((playerCharacterResponse) => {
+				console.log(playerCharacterResponse);
+				processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
+				processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
+				for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
+					processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
+				}
+			});
+		} else {
+			$scope.characters.length = 0;
+			$scope.selectedCharacter = undefined;
+			characterPromise = $http.get('https://api.guildwars2.com/v2/characters?access_token=' + $scope.apiKey)
+			.then((playerAllCharactersResponse) => {
+				let playerAllCharactersData = playerAllCharactersResponse.data;
+				for(let i = 0; i < playerAllCharactersData.length; i++){
+					$scope.characters.push(playerAllCharactersData[i]);
+				}
+				$scope.selectedCharacter = $scope.characters[0];
+				return $http.get('https://api.guildwars2.com/v2/characters/' + $scope.selectedCharacter + '?access_token=' + $scope.apiKey);
+			}).then((playerCharacterResponse) => {
+				console.log(playerCharacterResponse);
+				processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
+				processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
+				for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
+					processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
+				}
+			});
+		}
 
 		let bankPromise = $http.get('https://api.guildwars2.com/v2/account/bank?access_token='  + $scope.apiKey)
 		.then((bankItemResponse) => {
