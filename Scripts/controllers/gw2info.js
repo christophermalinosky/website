@@ -6,6 +6,10 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 	$scope.finishedAchievements = [];
 	$scope.unfinishedAchievements = [];
 
+	const allCharacterOption = "All";
+	const maxItemIdsPerRequest = 180;
+	const maxAchievementIdsPerRequest = 200;
+
 	function processPlayerItemData(playerItems, itemAmounts){
 		for(let i = 0; i < playerItems.length; i++){
 			let currentItem = playerItems[i];
@@ -24,6 +28,14 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 		}
 	}
 
+	function processCharacterItemResponse(playerCharacterResponse, itemAmounts){
+		processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
+		processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
+		for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
+			processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
+		}
+	}
+
 	//My API token = 3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF
 
 	$scope.getItems = function(characterName){
@@ -31,27 +43,19 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 		const itemAmounts = [];
 
 		let characterPromise;
-		if(characterName === "All"){
+		if(characterName === allCharacterOption){
 			let allCharacterPromises = [];
 			for(let i = 0; i < $scope.characters.length - 1; i++){
 				allCharacterPromises.push($http.get('https://api.guildwars2.com/v2/characters/' + $scope.characters[i] + '?access_token=' + $scope.apiKey)
 				.then((playerCharacterResponse) => {
-					processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
-					processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
-					for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
-						processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
-					}
+					processCharacterItemResponse(playerCharacterResponse, itemAmounts)
 				}));
 			}
 			characterPromise = Promise.all(allCharacterPromises);
 		} else if(characterName){
 			$http.get('https://api.guildwars2.com/v2/characters/' + characterName + '?access_token=' + $scope.apiKey)
 			.then((playerCharacterResponse) => {
-				processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
-				processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
-				for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
-					processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
-				}
+				processCharacterItemResponse(playerCharacterResponse, itemAmounts)
 			});
 		} else {
 			$scope.characters.length = 0;
@@ -62,15 +66,11 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				for(let i = 0; i < playerAllCharactersData.length; i++){
 					$scope.characters.push(playerAllCharactersData[i]);
 				}
-				$scope.characters.push("All");
+				$scope.characters.push(allCharacterOption);
 				$scope.selectedCharacter = $scope.characters[0];
 				return $http.get('https://api.guildwars2.com/v2/characters/' + $scope.selectedCharacter + '?access_token=' + $scope.apiKey);
 			}).then((playerCharacterResponse) => {
-				processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
-				processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
-				for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
-					processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
-				}
+				processCharacterItemResponse(playerCharacterResponse, itemAmounts)
 			});
 		}
 
@@ -89,12 +89,12 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 			let itemKeys = Object.keys(itemAmounts);
 
 			//Can only request 200 ids at a time from api
-			const numberOfItemRequests = Math.ceil(itemKeys.length/150);
+			const numberOfItemRequests = Math.ceil(itemKeys.length/maxItemIdsPerRequest);
 			let itemPromises = [];
 			for(let i = 0; i < numberOfItemRequests; i++){
 				let httpRequestString = 'https://api.guildwars2.com/v2/items?ids=';
-				const maxItemIndex = Math.min(150 * (i + 1), itemKeys.length);
-				for(let j = 150 * i; j < maxItemIndex; j++){
+				const maxItemIndex = Math.min(maxItemIdsPerRequest * (i + 1), itemKeys.length);
+				for(let j = maxItemIdsPerRequest * i; j < maxItemIndex; j++){
 					if(j == 0){
 						httpRequestString = httpRequestString + itemKeys[j];
 					} else {
@@ -130,12 +130,12 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				playerAchievementDataMap[playerAchievementData[i].id] = playerAchievementData[i];
 			}
 			//Can only request 200 ids at a time from api
-			const numberOfAchievementRequests = Math.ceil(playerAchievementData.length/200);
+			const numberOfAchievementRequests = Math.ceil(playerAchievementData.length/maxAchievementIdsPerRequest);
 			let achievementPromises = [];
 			for(let i = 0; i < numberOfAchievementRequests; i++){
 				let httpRequestString = 'https://api.guildwars2.com/v2/achievements?ids=';
-				const maxAchievementIndex = Math.min(200 * (i + 1), playerAchievementData.length);
-				for(let j = 200 * i; j < maxAchievementIndex; j++){
+				const maxAchievementIndex = Math.min(maxAchievementIdsPerRequest * (i + 1), playerAchievementData.length);
+				for(let j = maxAchievementIdsPerRequest * i; j < maxAchievementIndex; j++){
 					//Achievement 1257 in the player list is not in the achievement list
 					if(playerAchievementData[j].id !== 1257){
 						if(j == 0){
