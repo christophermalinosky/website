@@ -1,10 +1,8 @@
 angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", function($scope, $http){
 	$scope.items = [];
-	getItems();
 
 	$scope.finishedAchievements = [];
 	$scope.unfinishedAchievements = [];
-	getAchievements();
 
 	function processPlayerItemData(playerItems, itemAmounts){
 		for(let i = 0; i < playerItems.length; i++){
@@ -23,12 +21,14 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 			}
 		}
 	}
+
 	//My API token = 3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF
 
-	function getItems(){
+	$scope.getItems = function(){
+		$scope.items.length = 0;
 		const itemAmounts = [];
 
-		let characterPromise = $http.get('https://api.guildwars2.com/v2/characters/Belrath Ironblood?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
+		let characterPromise = $http.get('https://api.guildwars2.com/v2/characters/Belrath Ironblood?access_token=' + $scope.apiKey)
 		.then((playerCharacterResponse) => {
 			processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
 			processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
@@ -37,12 +37,12 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 			}
 		});
 
-		let bankPromise = $http.get('https://api.guildwars2.com/v2/account/bank?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
+		let bankPromise = $http.get('https://api.guildwars2.com/v2/account/bank?access_token='  + $scope.apiKey)
 		.then((bankItemResponse) => {
 			processPlayerItemData(bankItemResponse.data, itemAmounts);
 		});
 		
-		let materialPromise = $http.get('https://api.guildwars2.com/v2/account/materials?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
+		let materialPromise = $http.get('https://api.guildwars2.com/v2/account/materials?access_token=' + $scope.apiKey)
 		.then((materialItemResponse) => {
 			processPlayerItemData(materialItemResponse.data, itemAmounts);
 		});
@@ -80,10 +80,13 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 		});
 	}
 	
-	function getAchievements(){
+	$scope.getAchievements = function(){
+		$scope.finishedAchievements.length = 0;
+		$scope.unfinishedAchievements.length = 0;
+
 		const achievementFullDataResponses = [];
 		const playerAchievementDataMap =[];
-		$http.get('https://api.guildwars2.com/v2/account/achievements?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
+		$http.get('https://api.guildwars2.com/v2/account/achievements?access_token='  + $scope.apiKey)
 		.then((playerAchievementResponse) => {
 			let playerAchievementData = playerAchievementResponse.data;
 			for(let i = 0; i < playerAchievementData.length; i++){

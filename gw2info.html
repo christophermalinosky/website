@@ -12,6 +12,10 @@
 		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
 		<navigation-bar></navigation-bar>
 		<div id="content" ng-controller="GW2InfoController">
+			<div>
+				<input ng-model="apiKey" placeholder="Enter your API key" aria-label="Enter API key" />
+				<button type="submit" ng-click="getItems(); getAchievements()">Submit</button>
+			</div>
 			<input type="search" ng-model="search" placeholder="Search for an item" aria-label="Search Items" />
 			<h2>Items</h2>
 			<div ng-repeat="item in items | filter:search">
