@@ -76,6 +76,7 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 					$scope.items.push(currentItemData);
 				}
 			}
+			scope.$apply();
 		});
 	}
 	
