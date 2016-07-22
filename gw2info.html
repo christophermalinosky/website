@@ -22,7 +22,7 @@
 				<input type="search" ng-model="search" placeholder="Search for an item" aria-label="Search Items" />
 				<h2>Items</h2>
 				<div ng-repeat="item in items | filter:search">
-					<!-- <img ng-src="{{item.icon}}" />  Looks bulky without special css-->
+					<img class="item-icon" ng-src="{{item.icon}}" height="20" width="20"/>
 					<p>{{item.name}}: {{item.count}}</p>
 				</div>
 				<h2>Unfinished Achievements</h2>

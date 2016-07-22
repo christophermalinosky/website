@@ -80,3 +80,7 @@ footer{
 	border: 1px solid #333333;
 	padding: 6px 16px;
 }
+
+.item-icon{
+	float: left;
+}
