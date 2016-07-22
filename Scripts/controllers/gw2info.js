@@ -31,10 +31,22 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 		const itemAmounts = [];
 
 		let characterPromise;
-		if(characterName){
+		if(characterName === "All"){
+			let allCharacterPromises = [];
+			for(let i = 0; i < $scope.characters.length - 1; i++){
+				allCharacterPromises.push($http.get('https://api.guildwars2.com/v2/characters/' + $scope.characters[i] + '?access_token=' + $scope.apiKey)
+				.then((playerCharacterResponse) => {
+					processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
+					processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
+					for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
+						processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
+					}
+				}));
+			}
+			characterPromise = Promise.all(allCharacterPromises);
+		} else if(characterName){
 			$http.get('https://api.guildwars2.com/v2/characters/' + characterName + '?access_token=' + $scope.apiKey)
 			.then((playerCharacterResponse) => {
-				console.log(playerCharacterResponse);
 				processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
 				processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
 				for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
@@ -50,10 +62,10 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				for(let i = 0; i < playerAllCharactersData.length; i++){
 					$scope.characters.push(playerAllCharactersData[i]);
 				}
+				$scope.characters.push("All");
 				$scope.selectedCharacter = $scope.characters[0];
 				return $http.get('https://api.guildwars2.com/v2/characters/' + $scope.selectedCharacter + '?access_token=' + $scope.apiKey);
 			}).then((playerCharacterResponse) => {
-				console.log(playerCharacterResponse);
 				processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
 				processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
 				for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
