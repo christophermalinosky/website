@@ -31,8 +31,8 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 		let characterPromise = $http.get('https://api.guildwars2.com/v2/characters/Belrath Ironblood?access_token=3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF')
 		.then((playerCharacterResponse) => {
 			processPlayerItemData(playerCharacterResponse.data.equipment, itemAmounts);
+			processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
 			for(let i = 0; i < playerCharacterResponse.data.bags.length; i++){
-				processPlayerItemData(playerCharacterResponse.data.bags, itemAmounts);
 				processPlayerItemData(playerCharacterResponse.data.bags[i].inventory, itemAmounts);
 			}
 		});
