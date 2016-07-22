@@ -15,6 +15,7 @@
 			<div>
 				<input ng-model="apiKey" placeholder="Enter your API key" aria-label="Enter API key" />
 				<button type="submit" ng-click="getItems(); getAchievements()">Submit</button>
+				<button ng-click="apiKey = '3AD5F2A8-7A47-6F45-BB63-4877D43D0DFD830BD2B8-A2F3-4A9A-A5D7-351A53CE53AF'; getItems(); getAchievements()">Use Christopher's API Key</button>
 			</div>
 			<div ng-hide="selectedCharacter == undefinded">
 				<select ng-model="selectedCharacter" ng-options="character for character in characters" ng-change="getItems(selectedCharacter)"></select>

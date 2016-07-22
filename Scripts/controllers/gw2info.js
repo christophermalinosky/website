@@ -95,7 +95,7 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				let httpRequestString = 'https://api.guildwars2.com/v2/items?ids=';
 				const maxItemIndex = Math.min(maxItemIdsPerRequest * (i + 1), itemKeys.length);
 				for(let j = maxItemIdsPerRequest * i; j < maxItemIndex; j++){
-					if(j == 0){
+					if(j % maxItemIdsPerRequest == 0){
 						httpRequestString = httpRequestString + itemKeys[j];
 					} else {
 						httpRequestString = httpRequestString + ',' + itemKeys[j];
@@ -138,7 +138,7 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				for(let j = maxAchievementIdsPerRequest * i; j < maxAchievementIndex; j++){
 					//Achievement 1257 in the player list is not in the achievement list
 					if(playerAchievementData[j].id !== 1257){
-						if(j == 0){
+						if(j % maxAchievementIdsPerRequest == 0){
 							httpRequestString = httpRequestString + playerAchievementData[j].id;
 						} else {
 							httpRequestString = httpRequestString + ',' + playerAchievementData[j].id;
