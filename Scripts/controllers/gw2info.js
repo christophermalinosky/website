@@ -7,6 +7,7 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 	$scope.unfinishedAchievements = [];
 
 	const allCharacterOption = "All";
+	//The string for a http request can only be so long
 	const maxItemIdsPerRequest = 180;
 	const maxAchievementIdsPerRequest = 200;
 
@@ -84,11 +85,11 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 			processPlayerItemData(materialItemResponse.data, itemAmounts);
 		});
 		let itemFullDataResponses = [];
+		let itemCostFullDataResponses = [];
 		Promise.all([characterPromise,bankPromise,materialPromise])
 		.then((response) => {
 			let itemKeys = Object.keys(itemAmounts);
 
-			//Can only request 200 ids at a time from api
 			const numberOfItemRequests = Math.ceil(itemKeys.length/maxItemIdsPerRequest);
 			let itemPromises = [];
 			for(let i = 0; i < numberOfItemRequests; i++){
@@ -103,12 +104,42 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 				}
 				itemPromises.push($http.get(httpRequestString).then((response) => itemFullDataResponses.push(response)));
 			}
-			return Promise.all(itemPromises);
+
+			let itemCostPromises = [];
+			for(let i = 0; i < numberOfItemRequests; i++){
+				let httpRequestString = 'https://api.guildwars2.com/v2/commerce/prices?ids=';
+				const maxItemIndex = Math.min(maxItemIdsPerRequest * (i + 1), itemKeys.length);
+				for(let j = maxItemIdsPerRequest * i; j < maxItemIndex; j++){
+					if(j % maxItemIdsPerRequest == 0){
+						httpRequestString = httpRequestString + itemKeys[j];
+					} else {
+						httpRequestString = httpRequestString + ',' + itemKeys[j];
+					}
+				}
+				itemCostPromises.push($http.get(httpRequestString).then((response) => itemCostFullDataResponses.push(response)));
+			}
+			return Promise.all(itemPromises.concat(itemCostPromises));
 		}).then((allCompletedResponse) => {
 			for(let i = 0; i < itemFullDataResponses.length; i++){
 				let fullItemData = itemFullDataResponses[i].data;
-				for(let j = 0; j < fullItemData.length; j ++){
+				let fullItemCostData = itemCostFullDataResponses[i].data;
+
+				console.log(itemFullDataResponses);
+				console.log(itemCostFullDataResponses);
+				for(let j = 0; j < fullItemData.length; j++){
 					currentItemData = fullItemData[j];
+
+					if(fullItemCostData[j]){
+						currentItemData.hasPrice = true;
+						currentItemData.buy_price_gold = Math.floor(fullItemCostData[j].buys.unit_price / 10000 );
+						currentItemData.buy_price_silver = Math.floor((fullItemCostData[j].buys.unit_price % 10000) / 100);
+						currentItemData.buy_price_copper = Math.floor(fullItemCostData[j].buys.unit_price % 100);
+						currentItemData.sell_price_gold = Math.floor(fullItemCostData[j].sells.unit_price / 10000 );
+						currentItemData.sell_price_silver = Math.floor((fullItemCostData[j].sells.unit_price % 10000) / 100);
+						currentItemData.sell_price_copper = Math.floor(fullItemCostData[j].sells.unit_price % 100);
+					} else {
+						currentItemData.hasPrice = false;
+					}
 					currentItemData.count = itemAmounts[currentItemData.id];
 					$scope.items.push(currentItemData);
 				}
@@ -129,7 +160,6 @@ angular.module('myApp').controller('GW2InfoController', ["$scope", "$http", func
 			for(let i = 0; i < playerAchievementData.length; i++){
 				playerAchievementDataMap[playerAchievementData[i].id] = playerAchievementData[i];
 			}
-			//Can only request 200 ids at a time from api
 			const numberOfAchievementRequests = Math.ceil(playerAchievementData.length/maxAchievementIdsPerRequest);
 			let achievementPromises = [];
 			for(let i = 0; i < numberOfAchievementRequests; i++){
