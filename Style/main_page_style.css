@@ -84,3 +84,8 @@ footer{
 .item-icon{
 	float: left;
 }
+
+
+.text-center {
+	text-align: center;
+}

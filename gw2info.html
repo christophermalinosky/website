@@ -2,7 +2,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
 <html lang="en" ng-app="myApp">
 	<head>
-		<!-- gw2info ; Christopher Malinosky; Last updated: March 17, 2014 -->
+		<!-- gw2info ; Christopher Malinosky; Last updated: July 16, 2016 -->
 		<meta charset="utf-8">
 		<title>GW2 Info</title>
 		<link rel="stylesheet" type="text/css" media="screen" href="Style/main_page_style.css">
@@ -12,6 +12,8 @@
 		<img id=header src="Images/Site_Header.png" alt="An image with a red background that reads Christopher Malinosky's Web Portfolio." height="100" width="780">
 		<navigation-bar></navigation-bar>
 		<div id="content" ng-controller="GW2InfoController">
+			<h1>Guild Wars 2 Tool</h1>
+			<h4 class="text-center">Last Edited: July 16, 2016</h4>
 			<div>
 				<input ng-model="apiKey" placeholder="Enter your API key" aria-label="Enter API key" />
 				<button type="submit" ng-click="getItems(); getAchievements()">Submit</button>

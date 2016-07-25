@@ -409,3 +409,7 @@ body div#picture{
 	padding: .857em;
 	overflow: hidden;
 }	
+
+.text-center {
+	text-align: center;
+}
